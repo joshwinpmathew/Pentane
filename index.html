@@ -3,7 +3,6 @@
 <head>
   <meta charset="utf-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1" />
-  <title>PENTANE — The Group of 5 Legends</title>
   <style>
     :root{
       --yellow:#fff176; /* darker yellow */
@@ -22,13 +21,13 @@
 
     /* Header */
     .hero{
-      height:100vh; /* full screen */
+      height:60vh; /* smaller than full screen so the title sits above it */
       width:100%;
       border-radius:0;
       overflow:hidden;
       position:relative;
-      display:flex;align-items:center;justify-content:flex-start;
-      background:linear-gradient(180deg, rgba(0,0,0,0.25), rgba(0,0,0,0.25));
+      display:block;
+      background:linear-gradient(180deg, rgba(0,0,0,0.12), rgba(0,0,0,0.12));
       margin-bottom:26px;
     }
     .hero::before{
@@ -39,11 +38,13 @@
       filter:brightness(0.85) saturate(1.05);
       z-index:0;
     }
-    /* <-- UPDATED: position hero-inner absolutely so the badge/title/subtitle sit at the top-left of the image */
-    .hero-inner{position:absolute;z-index:2;top:28px;left:36px;padding:28px 36px;color:#111}
+
+    /* UPDATED: place title above the image (hero) by moving hero-inner outside the hero and using position:relative */
+    .hero-inner{position:relative;z-index:3;padding:18px 36px 12px 36px;color:#111;margin-bottom:8px}
+    /* keep badge styling in case you want it later (not used now) */
     .badge{display:inline-block;background:var(--accent);padding:6px 12px;border-radius:999px;font-weight:700;margin-bottom:10px;box-shadow:0 4px 18px rgba(0,0,0,0.12)}
     h1{font-size:56px;margin:6px 0 6px;letter-spacing:1px;color:red}
-    p.lead{font-size:18px;margin:0;color:white}
+    p.lead{font-size:18px;margin:0;color:var(--muted)}
 
     /* Members section */
     h2.section-title{margin-top:8px;color:var(--dark);font-size:26px}
@@ -79,17 +80,21 @@
       .hero{height:260px}
       .member{flex-direction:row}
       .member-photo{width:90px;height:90px}
+      .hero-inner{padding-left:18px;padding-right:18px}
     }
   </style>
 </head>
 <body>
   <div class="container">
+
+    <!-- MOVED: title block is now above the hero image. Removed the yellow badge and the subtitle. -->
+    <div class="hero-inner">
+      <h1>PENTANE</h1>
+      <!-- subtitle removed as requested -->
+    </div>
+
     <header class="hero" role="banner">
-      <div class="hero-inner">
-        <span class="badge">PENTANE</span>
-        <h1>PENTANE</h1>
-        <p class="lead">the group of 5 legends</p>
-      </div>
+      <!-- the image is the hero background now and the title sits above the image without overlap -->
     </header>
 
     <main>
@@ -147,7 +152,7 @@
             </div>
             <div class="member-info">
               <h3>Mohammed Musthaq</h3>
-              <p>IPS officer living and working in USA. Popular for his fight against walls.</p>
+              <p>IPS officer living and working in USA. Popular for his fight against walls</p>
               <a class="insta-link" href="https://www.instagram.com/mustaq_t_s?utm_source=ig_web_button_share_sheet&igsh=ZDNlZDc0MzIxNw==" target="_blank">Instagram</a>
             </div>
           </article>
@@ -210,5 +215,6 @@
   </div>
 </body>
 </html>
+
 
 
