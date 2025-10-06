@@ -4,85 +4,105 @@
   <meta charset="utf-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1" />
   <style>
-    :root{
-      --yellow:#fff175; /* darker yellow */
-      --accent:#ffeb3b;
-      --dark:#222;
-      --muted:#555;
-      --card:#fff9c4;
-      --max-width:1100px;
-      font-family: system-ui, -apple-system, 'Segoe UI', Roboto, 'Helvetica Neue', Arial;
-    }
+  :root {
+    --primary: #0d1b2a;   /* Deep navy */
+    --secondary: #1b263b; /* Slightly lighter navy */
+    --accent: #d4af37;    /* Premium gold */
+    --muted: #8892b0;     /* Muted gray-blue text */
+    --card: #112240;      /* Card background */
+    --text: #e6f1ff;      /* Light text */
+    --max-width: 1100px;
+    font-family: 'Inter', system-ui, -apple-system, 'Segoe UI', Roboto, 'Helvetica Neue', Arial;
+  }
 
-    *{box-sizing:border-box}
-    body{margin:0;background:var(--yellow);color:var(--dark);line-height:1.45}
+  * { box-sizing: border-box; }
 
-    .container{max-width:var(--max-width);margin:0 auto;padding:24px}
+  body {
+    margin: 0;
+    background: var(--primary);
+    color: var(--text);
+    line-height: 1.6;
+  }
 
-    /* Header */
-    .hero{
-      height:60vh; /* smaller than full screen so the title sits above it */
-      width:100%;
-      border-radius:0;
-      overflow:hidden;
-      position:relative;
-      display:block;
-      background:linear-gradient(180deg, rgba(0,0,0,0.12), rgba(0,0,0,0.12));
-      margin-bottom:26px;
-    }
-    .hero::before{
-      content:"";
-      position:absolute;inset:0;
-      background-image: url('group-photo.jpg'); /* direct file, not in folder */
-      background-size:cover;background-position:center;
-      filter:brightness(0.85) saturate(1.05);
-      z-index:0;
-    }
+  .container {
+    max-width: var(--max-width);
+    margin: 0 auto;
+    padding: 24px;
+  }
 
-    /* UPDATED: place title above the image (hero) by moving hero-inner outside the hero and using position:relative */
-    .hero-inner{position:relative;z-index:3;padding:18px 36px 12px 36px;color:#111;margin-bottom:8px}
-    /* keep badge styling in case you want it later (not used now) */
-    .badge{display:inline-block;background:var(--accent);padding:6px 12px;border-radius:999px;font-weight:700;margin-bottom:10px;box-shadow:0 4px 18px rgba(0,0,0,0.12)}
-    h1{font-size:56px;margin:6px 0 6px;letter-spacing:1px;color:red}
-    p.lead{font-size:18px;margin:0;color:var(--muted)}
+  /* Hero Section */
+  .hero {
+    height: 60vh;
+    width: 100%;
+    border-radius: 0;
+    overflow: hidden;
+    position: relative;
+    display: block;
+    background: linear-gradient(180deg, rgba(0,0,0,0.5), rgba(0,0,0,0.6));
+    margin-bottom: 26px;
+  }
 
-    /* Members section */
-    h2.section-title{margin-top:8px;color:var(--dark);font-size:26px}
-    .members{margin-top:18px;display:flex;flex-direction:column;gap:14px}
-    .member{
-      display:flex;gap:18px;background:#fff59d;
-      padding:14px;border-radius:12px;align-items:center;box-shadow:0 6px 18px rgba(0,0,0,0.06)
-    }
-    .member-photo{
-      width:110px;height:110px;border-radius:10px;background:linear-gradient(180deg,var(--accent),var(--yellow));
-      display:flex;align-items:center;justify-content:center;font-weight:700;color:#222;border:4px solid rgba(0,0,0,0.04);flex:0 0 110px;position:relative;overflow:hidden
-    }
-    .member-photo img{width:100%;height:100%;object-fit:cover;display:block}
+  .hero::before {
+    content: "";
+    position: absolute;
+    inset: 0;
+    background-image: url('group-photo.jpg');
+    background-size: cover;
+    background-position: center;
+    filter: brightness(0.5);
+  }
 
-    .member-info{flex:1}
-    .member-info h3{margin:0 0 6px;font-size:18px}
-    .member-info p{margin:0;color:var(--muted)}
-    .insta-link{margin-top:6px;display:inline-block;color:#d6249f;font-weight:600;text-decoration:none}
-    .insta-link:hover{text-decoration:underline}
+  h1, h2, h3 {
+    color: var(--accent);
+    letter-spacing: 0.5px;
+  }
 
-    /* Funds table */
-    .funds{margin-top:28px;padding:18px;border-radius:12px;background:#fff59d;box-shadow:0 8px 26px rgba(0,0,0,0.06)}
-    table{width:100%;border-collapse:collapse;margin-top:12px}
-    th,td{padding:10px 12px;text-align:left;border-bottom:1px solid rgba(0,0,0,0.06)}
-    th{background:linear-gradient(90deg,var(--accent),#fff176);font-weight:700}
-    td.amount{text-align:right;font-weight:700}
+  p {
+    color: var(--muted);
+    font-size: 1.05rem;
+  }
 
-    /* Footer */
-    footer{margin-top:32px;padding:10px 0;text-align:center;color:var(--muted);font-size:14px}
+  .card {
+    background: var(--card);
+    color: var(--text);
+    border-radius: 16px;
+    padding: 20px;
+    box-shadow: 0 6px 18px rgba(0, 0, 0, 0.3);
+    transition: transform 0.3s ease, box-shadow 0.3s ease;
+  }
 
-    @media (max-width:720px){
-      h1{font-size:36px}
-      .hero{height:260px}
-      .member{flex-direction:row}
-      .member-photo{width:90px;height:90px}
-      .hero-inner{padding-left:18px;padding-right:18px}
-    }
-  </style>
+  .card:hover {
+    transform: translateY(-5px);
+    box-shadow: 0 8px 24px rgba(0, 0, 0, 0.4);
+  }
+
+  a {
+    color: var(--accent);
+    text-decoration: none;
+    transition: color 0.3s;
+  }
+
+  a:hover {
+    color: #f5d67b;
+  }
+
+  button {
+    background: var(--accent);
+    color: var(--primary);
+    border: none;
+    padding: 12px 20px;
+    border-radius: 12px;
+    font-weight: 600;
+    cursor: pointer;
+    transition: background 0.3s, transform 0.2s;
+  }
+
+  button:hover {
+    background: #f5d67b;
+    transform: translateY(-2px);
+  }
+</style>
+
 </head>
 <body>
   <div class="container">
@@ -219,6 +239,7 @@
   </div>
 </body>
 </html>
+
 
 
 
