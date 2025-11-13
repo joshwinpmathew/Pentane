@@ -6,97 +6,214 @@
   <style>
     :root{
       --accent: #8f00ff;   /* royal violet – premium and futuristic */
---dark: #0b0b0b;     /* deep black background */
---muted: #3a3a3a;    /* soft grey for subtle contrast */
---card: #1a1a1a;     /* dark card surface */
---highlight: #00ffd5; /* cyan accent for glow or hover effects */
-      --max-width:1100px;
+      --highlight: #00ffd5; /* cyan accent for glow or hover effects */
+      --dark: #0b0b0b;     /* deep black background */
+      --muted: #9a9a9a;    /* muted light grey for text */
+      --card: #1a1a1a;     /* dark card surface */
+      --max-width: 1100px;
       font-family: system-ui, -apple-system, 'Segoe UI', Roboto, 'Helvetica Neue', Arial;
     }
 
-    *{box-sizing:border-box}
-    body{margin:0;background:var(--yellow);color:var(--dark);line-height:1.45}
+    * { box-sizing: border-box; }
 
-    .container{max-width:var(--max-width);margin:0 auto;padding:24px}
+    body {
+      margin: 0;
+      background: var(--dark);
+      color: #eaeaea;
+      line-height: 1.6;
+    }
+
+    .container {
+      max-width: var(--max-width);
+      margin: 0 auto;
+      padding: 24px;
+    }
 
     /* Header */
-    .hero{
-      height:60vh; /* smaller than full screen so the title sits above it */
-      width:100%;
-      border-radius:0;
-      overflow:hidden;
-      position:relative;
-      display:block;
-      background:linear-gradient(180deg, rgba(0,0,0,0.12), rgba(0,0,0,0.12));
-      margin-bottom:26px;
-    }
-    .hero::before{
-      content:"";
-      position:absolute;inset:0;
-      background-image: url('group-photo.jpg'); /* direct file, not in folder */
-      background-size:cover;background-position:center;
-      filter:brightness(0.85) saturate(1.05);
-      z-index:0;
+    .hero {
+      height: 60vh;
+      width: 100%;
+      border-radius: 0;
+      overflow: hidden;
+      position: relative;
+      display: block;
+      background: linear-gradient(180deg, rgba(0,0,0,0.4), rgba(0,0,0,0.6));
+      margin-bottom: 26px;
     }
 
-    /* UPDATED: place title above the image (hero) by moving hero-inner outside the hero and using position:relative */
-    .hero-inner{position:relative;z-index:3;padding:18px 36px 12px 36px;color:#111;margin-bottom:8px}
-    /* keep badge styling in case you want it later (not used now) */
-    .badge{display:inline-block;background:var(--accent);padding:6px 12px;border-radius:999px;font-weight:700;margin-bottom:10px;box-shadow:0 4px 18px rgba(0,0,0,0.12)}
-    h1{font-size:56px;margin:6px 0 6px;letter-spacing:1px;color:red}
-    p.lead{font-size:18px;margin:0;color:var(--muted)}
+    .hero::before {
+      content: "";
+      position: absolute; inset: 0;
+      background-image: url('group-photo.jpg');
+      background-size: cover;
+      background-position: center;
+      filter: brightness(0.4) saturate(1.2);
+      z-index: 0;
+    }
+
+    .hero-inner {
+      position: relative;
+      z-index: 3;
+      padding: 18px 36px 12px 36px;
+      color: var(--highlight);
+      margin-bottom: 8px;
+    }
+
+    h1 {
+      font-size: 56px;
+      margin: 6px 0;
+      letter-spacing: 1px;
+      background: linear-gradient(90deg, var(--highlight), var(--accent));
+      -webkit-background-clip: text;
+      -webkit-text-fill-color: transparent;
+    }
+
+    p.lead {
+      font-size: 18px;
+      margin: 0;
+      color: var(--muted);
+    }
 
     /* Members section */
-    h2.section-title{margin-top:8px;color:var(--dark);font-size:26px}
-    .members{margin-top:18px;display:flex;flex-direction:column;gap:14px}
-    .member{
-      display:flex;gap:18px;background:#fff59d;
-      padding:14px;border-radius:12px;align-items:center;box-shadow:0 6px 18px rgba(0,0,0,0.06)
+    h2.section-title {
+      margin-top: 8px;
+      color: var(--highlight);
+      font-size: 26px;
+      letter-spacing: 1px;
+      text-transform: uppercase;
     }
-    .member-photo{
-      width:110px;height:110px;border-radius:10px;background:linear-gradient(180deg,var(--accent),var(--yellow));
-      display:flex;align-items:center;justify-content:center;font-weight:700;color:#222;border:4px solid rgba(0,0,0,0.04);flex:0 0 110px;position:relative;overflow:hidden
-    }
-    .member-photo img{width:100%;height:100%;object-fit:cover;display:block}
 
-    .member-info{flex:1}
-    .member-info h3{margin:0 0 6px;font-size:18px}
-    .member-info p{margin:0;color:var(--muted)}
-    .insta-link{margin-top:6px;display:inline-block;color:#d6249f;font-weight:600;text-decoration:none}
-    .insta-link:hover{text-decoration:underline}
+    .members {
+      margin-top: 18px;
+      display: flex;
+      flex-direction: column;
+      gap: 14px;
+    }
+
+    .member {
+      display: flex;
+      gap: 18px;
+      background: var(--card);
+      padding: 16px;
+      border-radius: 12px;
+      align-items: center;
+      box-shadow: 0 0 10px rgba(0,0,0,0.5);
+      transition: transform 0.2s, box-shadow 0.3s;
+    }
+
+    .member:hover {
+      transform: translateY(-4px);
+      box-shadow: 0 0 16px var(--accent);
+    }
+
+    .member-photo {
+      width: 110px;
+      height: 110px;
+      border-radius: 10px;
+      background: linear-gradient(135deg, var(--accent), var(--highlight));
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      font-weight: 700;
+      color: #111;
+      border: 2px solid rgba(255,255,255,0.1);
+      flex: 0 0 110px;
+      position: relative;
+      overflow: hidden;
+    }
+
+    .member-photo img {
+      width: 100%;
+      height: 100%;
+      object-fit: cover;
+      display: block;
+    }
+
+    .member-info h3 {
+      margin: 0 0 6px;
+      font-size: 18px;
+      color: var(--highlight);
+    }
+
+    .member-info p {
+      margin: 0;
+      color: var(--muted);
+    }
+
+    .insta-link {
+      margin-top: 6px;
+      display: inline-block;
+      color: var(--accent);
+      font-weight: 600;
+      text-decoration: none;
+    }
+
+    .insta-link:hover {
+      text-decoration: underline;
+      color: var(--highlight);
+    }
 
     /* Funds table */
-    .funds{margin-top:28px;padding:18px;border-radius:12px;background:#fff59d;box-shadow:0 8px 26px rgba(0,0,0,0.06)}
-    table{width:100%;border-collapse:collapse;margin-top:12px}
-    th,td{padding:10px 12px;text-align:left;border-bottom:1px solid rgba(0,0,0,0.06)}
-    th{background:linear-gradient(90deg,var(--accent),#fff176);font-weight:700}
-    td.amount{text-align:right;font-weight:700}
+    .funds {
+      margin-top: 28px;
+      padding: 18px;
+      border-radius: 12px;
+      background: var(--card);
+      box-shadow: 0 0 16px rgba(0,0,0,0.5);
+    }
+
+    table {
+      width: 100%;
+      border-collapse: collapse;
+      margin-top: 12px;
+    }
+
+    th, td {
+      padding: 10px 12px;
+      text-align: left;
+      border-bottom: 1px solid rgba(255,255,255,0.08);
+    }
+
+    th {
+      background: linear-gradient(90deg, var(--accent), var(--highlight));
+      color: #fff;
+      font-weight: 700;
+      border: none;
+    }
+
+    td.amount {
+      text-align: right;
+      font-weight: 700;
+      color: var(--highlight);
+    }
 
     /* Footer */
-    footer{margin-top:32px;padding:10px 0;text-align:center;color:var(--muted);font-size:14px}
+    footer {
+      margin-top: 32px;
+      padding: 10px 0;
+      text-align: center;
+      color: var(--muted);
+      font-size: 14px;
+      border-top: 1px solid rgba(255,255,255,0.1);
+    }
 
-    @media (max-width:720px){
-      h1{font-size:36px}
-      .hero{height:260px}
-      .member{flex-direction:row}
-      .member-photo{width:90px;height:90px}
-      .hero-inner{padding-left:18px;padding-right:18px}
+    @media (max-width:720px) {
+      h1 { font-size: 36px; }
+      .hero { height: 260px; }
+      .member { flex-direction: row; }
+      .member-photo { width: 90px; height: 90px; }
+      .hero-inner { padding-left: 18px; padding-right: 18px; }
     }
   </style>
 
 </head>
 <body>
   <div class="container">
-
-    <!-- MOVED: title block is now above the hero image. Removed the yellow badge and the subtitle. -->
     <div class="hero-inner">
       <h1>PENTANE</h1>
-      <!-- subtitle removed as requested -->
     </div>
 
-    <header class="hero" role="banner">
-      <!-- the image is the hero background now and the title sits above the image without overlap -->
-    </header>
+    <header class="hero" role="banner"></header>
 
     <main>
       <section>
@@ -120,8 +237,8 @@
             </div>
             <div class="member-info">
               <h3>Daniel Joseph</h3>
-              <p>Daniel Joseph is skilled in robotics and electronics and editing .currently developing a robotic internet emitter named “AZTRON.” He enjoys cooking, music, and Arduino coding, and is interested in teaching.</p>
-              <a class="insta-link" href="https://www.instagram.com/dan_._iel___?utm_source=ig_web_button_share_sheet&igsh=ZDNlZDc0MzIxNw==" target="_blank">Instagram</a>
+              <p>Daniel Joseph is skilled in robotics, electronics, and editing. He’s currently developing a robotic internet emitter named “AZTRON.” He enjoys cooking, music, and Arduino coding, and is interested in teaching.</p>
+              <a class="insta-link" href="https://www.instagram.com/dan_._iel___" target="_blank">Instagram</a>
             </div>
           </article>
 
@@ -132,7 +249,7 @@
             <div class="member-info">
               <h3>B. Krishnadev</h3>
               <p>B. Krishnadev is skilled in AI prompting and aims to integrate artificial intelligence with engineering. With strong knowledge of watches and cars, he’s also passionate about fitness and workouts.</p>
-              <a class="insta-link" href="https://www.instagram.com/b_krishna_dev?utm_source=ig_web_button_share_sheet&igsh=ZDNlZDc0MzIxNw==" target="_blank">Instagram</a>
+              <a class="insta-link" href="https://www.instagram.com/b_krishna_dev" target="_blank">Instagram</a>
             </div>
           </article>
 
@@ -143,7 +260,7 @@
             <div class="member-info">
               <h3>Azeem Khan</h3>
               <p>Azeem Khan is deeply interested in electronics and is the second topper of SRV. His hobbies include coding and exploring new technologies.</p>
-              <a class="insta-link" href="https://www.instagram.com/aze._.m?utm_source=ig_web_button_share_sheet&igsh=ZDNlZDc0MzIxNw==" target="_blank">Instagram</a>
+              <a class="insta-link" href="https://www.instagram.com/aze._.m" target="_blank">Instagram</a>
             </div>
           </article>
 
@@ -153,8 +270,8 @@
             </div>
             <div class="member-info">
               <h3>Mohammed Musthaq</h3>
-              <p>Mustaq T. S is inspired by the I.P.S. His hobbies include workouts, etc.</p>
-              <a class="insta-link" href="https://www.instagram.com/mustaq_t_s?utm_source=ig_web_button_share_sheet&igsh=ZDNlZDc0MzIxNw==" target="_blank">Instagram</a>
+              <p>Mustaq T. S is inspired by the I.P.S. His hobbies include workouts and self-discipline training.</p>
+              <a class="insta-link" href="https://www.instagram.com/mustaq_t_s" target="_blank">Instagram</a>
             </div>
           </article>
 
@@ -172,38 +289,14 @@
             </tr>
           </thead>
           <tbody>
-            <tr>
-              <td>Joshwin</td>
-              <td class="amount">₹1320</td>
-            </tr>
-            <tr>
-              <td>Azeem</td>
-              <td class="amount">₹940</td>
-            </tr>
-            <tr>
-              <td>Krishnadev</td>
-              <td class="amount">₹1250</td>
-            </tr>
-            <tr>
-              <td>Daniel</td>
-              <td class="amount">₹1470</td>
-            </tr>
-            <tr>
-              <td>Musthaq</td>
-              <td class="amount">₹1380</td>
-            </tr>
-            <tr>
-              <td>Abhirami</td>
-              <td class="amount">₹1170</td>
-            </tr>
-            <tr>
-              <td>Lakshitha</td>
-              <td class="amount">₹910</td>
-            </tr>
-            <tr>
-              <td>Dhwani</td>
-              <td class="amount">₹870</td>
-            </tr>
+            <tr><td>Joshwin</td><td class="amount">₹1320</td></tr>
+            <tr><td>Azeem</td><td class="amount">₹940</td></tr>
+            <tr><td>Krishnadev</td><td class="amount">₹1250</td></tr>
+            <tr><td>Daniel</td><td class="amount">₹1470</td></tr>
+            <tr><td>Musthaq</td><td class="amount">₹1380</td></tr>
+            <tr><td>Abhirami</td><td class="amount">₹1170</td></tr>
+            <tr><td>Lakshitha</td><td class="amount">₹910</td></tr>
+            <tr><td>Dhwani</td><td class="amount">₹870</td></tr>
           </tbody>
           <tfoot>
             <tr>
@@ -213,37 +306,11 @@
           </tfoot>
         </table>
       </section>
-
     </main>
 
     <footer>
       Developer: Joshwin P Mathew
     </footer>
-
   </div>
 </body>
-</html>
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
+                </html>
