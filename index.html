@@ -14,6 +14,7 @@
       --max-width:1100px;
       font-family: system-ui, -apple-system, 'Segoe UI', Roboto, Arial;
     }
+
     *{box-sizing:border-box}
     body{
       margin:0;
@@ -23,6 +24,7 @@
       -moz-osx-font-smoothing:grayscale;
       line-height:1.6;
     }
+
     .container{
       max-width:var(--max-width);
       margin:24px auto;
@@ -57,10 +59,9 @@
       border-radius:16px;
       overflow:hidden;
       position:relative;
-      /* keep the incoming image's aspect ratio (1226x635) */
       aspect-ratio: 1226 / 635;
       background:transparent;
-      min-height:200px; /* fallback */
+      min-height:200px;
     }
 
     /* Actual image element — fills the panel without black bars */
@@ -70,18 +71,18 @@
       display:block;
       object-fit:cover;      /* <-- fills area, NO black bars */
       object-position:center;
-      filter: none;          /* remove dullness */
-      -webkit-transform: translateZ(0); /* GPU accel */
+      filter: none;          /* keep bright, not dull */
+      -webkit-transform: translateZ(0);
       backface-visibility:hidden;
     }
 
-    /* Optional very subtle overlay for text legibility (transparent so photo stays bright) */
+    /* very subtle overlay, doesn't dull image */
     .hero-overlay{
       position:absolute;
       inset:0;
       z-index:1;
       pointer-events:none;
-      background:linear-gradient(180deg, rgba(11,11,11,0.04), rgba(11,11,11,0.04));
+      background:linear-gradient(180deg, rgba(11,11,11,0.03), rgba(11,11,11,0.03));
     }
 
     /* members & cards */
@@ -93,13 +94,92 @@
       text-transform:uppercase;
     }
     .members{ margin-top:18px; display:flex; flex-direction:column; gap:14px; }
+
+    /* MEMBER card base */
     .member{
-      display:flex; gap:18px; background:var(--card); padding:16px; border-radius:12px;
-      align-items:center; box-shadow:0 6px 16px rgba(0,0,0,0.45); transition:transform .18s, box-shadow .2s;
+      position:relative;               /* for the gradient pseudo-element */
+      display:flex;
+      gap:18px;
+      background:var(--card);
+      padding:16px;
+      border-radius:12px;
+      align-items:center;
+      box-shadow:0 6px 16px rgba(0,0,0,0.45);
+      transition: transform .18s ease, box-shadow .25s ease;
+      overflow:visible;                /* allow glow to show outside */
     }
-    .member:hover{ transform:translateY(-4px); box-shadow:0 14px 28px rgba(0,0,0,0.6); }
-    .member-photo{ width:110px; height:110px; border-radius:10px; overflow:hidden; flex:0 0 110px; background:linear-gradient(135deg,var(--accent),var(--highlight)); display:flex; align-items:center; justify-content:center; }
-    .member-photo img{ width:100%; height:100%; object-fit:cover; display:block; }
+
+    /* ensure content sits above pseudo-element */
+    .member > * { position: relative; z-index: 2; }
+
+    /* gradient glow pseudo-element (hidden by default) */
+    .member::before{
+      content: "";
+      position: absolute;
+      inset: -4px;                     /* extends slightly outside the card */
+      border-radius: 16px;
+      background: linear-gradient(90deg, rgba(0,255,213,0.12), rgba(143,0,255,0.14));
+      filter: blur(14px);
+      opacity: 0;
+      transform: scale(0.98);
+      transition: opacity .22s ease, transform .22s ease;
+      z-index: 1;                      /* sits under content but above page bg */
+      pointer-events: none;
+    }
+
+    /* subtle colored box-shadow layer for depth */
+    .member::after{
+      content: "";
+      position: absolute;
+      inset: 0;
+      border-radius: 12px;
+      box-shadow: 0 6px 18px rgba(143,0,255,0.06);
+      opacity: 1;
+      z-index: 0;
+      pointer-events: none;
+      transition: box-shadow .22s ease;
+    }
+
+    /* Hover / focus effect: bring back the old gradient glow + lift */
+    .member:hover,
+    .member:focus-within {
+      transform: translateY(-6px);
+      box-shadow: 0 18px 36px rgba(0,0,0,0.55);
+    }
+
+    .member:hover::before,
+    .member:focus-within::before {
+      opacity: 1;
+      transform: scale(1.02);
+    }
+
+    .member:hover::after,
+    .member:focus-within::after {
+      box-shadow: 0 20px 44px rgba(143,0,255,0.14);
+    }
+
+    /* Make hover accessible for keyboard users */
+    .member:focus-within { outline: none; }
+
+    /* member photo */
+    .member-photo{
+      width:110px;
+      height:110px;
+      border-radius:10px;
+      overflow:hidden;
+      flex:0 0 110px;
+      display:flex;
+      align-items:center;
+      justify-content:center;
+      background: linear-gradient(135deg,var(--accent),var(--highlight));
+    }
+    .member-photo img{
+      width:100%;
+      height:100%;
+      object-fit:cover;
+      display:block;
+    }
+
     .member-info h3{ margin:0 0 6px; font-size:18px; color:var(--highlight); }
     .member-info p{ margin:0; color:var(--muted); }
     .insta-link{ margin-top:6px; display:inline-block; color:var(--accent); font-weight:600; text-decoration:none; }
@@ -113,13 +193,23 @@
     td.amount{ text-align:right; font-weight:700; color:var(--highlight); }
     footer{ margin-top:32px; padding:10px 0; text-align:center; color:var(--muted); font-size:14px; border-top:1px solid rgba(255,255,255,0.04); }
 
-    /* responsive adjustments */
-    @media (max-width:900px){ .title-container h1{ font-size:38px; } .member-photo{ width:90px; height:90px; } }
+    /* Responsive */
+    @media (max-width:900px){
+      .title-container h1{ font-size:38px; }
+      .member-photo{ width:90px; height:90px; }
+    }
+
     @media (max-width:720px){
       .title-container h1{ font-size:30px; }
       .hero-panel{ aspect-ratio: 16 / 9; min-height: 220px; }
       .member-photo{ width:74px; height:74px; }
       .member-info h3{ font-size:16px; }
+      .member::before{ inset: -3px; filter: blur(10px); }
+    }
+
+    /* Respect reduced-motion preference */
+    @media (prefers-reduced-motion: reduce) {
+      .member, .member::before, .member::after { transition: none !important; transform: none !important; }
     }
   </style>
 </head>
@@ -145,8 +235,10 @@
         <h2 class="section-title">Members</h2>
         <div class="members">
 
-          <article class="member">
-            <div class="member-photo"><img src="joshwin.jpg" alt="Joshwin"></div>
+          <article class="member" tabindex="0">
+            <div class="member-photo">
+              <img src="joshwin.jpg" alt="Joshwin">
+            </div>
             <div class="member-info">
               <h3>Joshwin P Mathew</h3>
               <p>Joshwin, the topper of SRV, is developing an innovative educational app and loves tech, music, and entrepreneurship.</p>
@@ -154,7 +246,7 @@
             </div>
           </article>
 
-          <article class="member">
+          <article class="member" tabindex="0">
             <div class="member-photo"><img src="daniel.jpg" alt="Daniel"></div>
             <div class="member-info">
               <h3>Daniel Joseph</h3>
@@ -163,7 +255,7 @@
             </div>
           </article>
 
-          <article class="member">
+          <article class="member" tabindex="0">
             <div class="member-photo"><img src="krishnadev.jpg" alt="Krishnadev"></div>
             <div class="member-info">
               <h3>B. Krishnadev</h3>
@@ -172,7 +264,7 @@
             </div>
           </article>
 
-          <article class="member">
+          <article class="member" tabindex="0">
             <div class="member-photo"><img src="azeem.jpg" alt="Azeem"></div>
             <div class="member-info">
               <h3>Azeem Khan</h3>
@@ -181,7 +273,7 @@
             </div>
           </article>
 
-          <article class="member">
+          <article class="member" tabindex="0">
             <div class="member-photo"><img src="musthaq.jpg" alt="Musthaq"></div>
             <div class="member-info">
               <h3>Mohammed Musthaq</h3>
