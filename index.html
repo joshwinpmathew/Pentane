@@ -3,15 +3,16 @@
 <head>
   <meta charset="utf-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1" />
+
   <style>
     :root {
-      --accent: #8f00ff;     /* royal violet – premium and futuristic */
-      --highlight: #00ffd5;  /* cyan accent for glow or hover effects */
-      --dark: #0b0b0b;       /* deep black background */
-      --muted: #9a9a9a;      /* muted light grey for text */
-      --card: #1a1a1a;       /* dark card surface */
+      --accent: #8f00ff;
+      --highlight: #00ffd5;
+      --dark: #0b0b0b;
+      --muted: #9a9a9a;
+      --card: #1a1a1a;
       --max-width: 1100px;
-      font-family: system-ui, -apple-system, 'Segoe UI', Roboto, 'Helvetica Neue', Arial;
+      font-family: system-ui, -apple-system, "Segoe UI", Roboto, Arial;
     }
 
     * { box-sizing: border-box; }
@@ -31,21 +32,19 @@
 
     /* Hero Section */
     .hero {
-      height: 60vh;
       width: 100%;
+      aspect-ratio: 1226 / 635;
+      min-height: 260px;
       border-radius: 18px;
       overflow: hidden;
       position: relative;
-      display: block;
-      background: linear-gradient(180deg, rgba(0,0,0,0.4), rgba(0,0,0,0.6));
       margin-bottom: 26px;
       border: 3px solid transparent;
       background-clip: padding-box;
-      position: relative;
       box-shadow: 0 0 25px rgba(0,0,0,0.6);
     }
 
-    /* Gradient border glow using pseudo-element */
+    /* Gradient border glow */
     .hero::after {
       content: "";
       position: absolute;
@@ -61,21 +60,22 @@
       pointer-events: none;
     }
 
+    /* Group Photo */
     .hero::before {
       content: "";
       position: absolute;
       inset: 0;
-      background-image: url('group-photo.jpg');
-      background-size: cover;
+      background-image: url("group-photo.jpg");
+      background-size: contain;
+      background-repeat: no-repeat;
       background-position: center;
-      filter: brightness(0.4) saturate(1.2);
+      filter: brightness(0.9) contrast(1.1) saturate(1.1);
+      background-color: black;
       z-index: 0;
     }
 
     .hero-inner {
-      position: relative;
-      z-index: 3;
-      padding: 18px 36px 12px 36px;
+      padding: 6px 10px;
       color: var(--highlight);
       margin-bottom: 8px;
     }
@@ -89,15 +89,14 @@
       -webkit-text-fill-color: transparent;
     }
 
-    /* Members section */
     h2.section-title {
-      margin-top: 8px;
       color: var(--highlight);
       font-size: 26px;
       letter-spacing: 1px;
       text-transform: uppercase;
     }
 
+    /* Members */
     .members {
       margin-top: 18px;
       display: flex;
@@ -113,7 +112,6 @@
       border-radius: 12px;
       align-items: center;
       box-shadow: 0 0 10px rgba(0,0,0,0.5);
-      transition: transform 0.2s, box-shadow 0.3s;
     }
 
     .member:hover {
@@ -126,14 +124,10 @@
       height: 110px;
       border-radius: 10px;
       background: linear-gradient(135deg, var(--accent), var(--highlight));
+      flex: 0 0 110px;
       display: flex;
       align-items: center;
       justify-content: center;
-      font-weight: 700;
-      color: #111;
-      border: 2px solid rgba(255,255,255,0.1);
-      flex: 0 0 110px;
-      position: relative;
       overflow: hidden;
     }
 
@@ -159,8 +153,8 @@
       margin-top: 6px;
       display: inline-block;
       color: var(--accent);
-      font-weight: 600;
       text-decoration: none;
+      font-weight: 600;
     }
 
     .insta-link:hover {
@@ -168,7 +162,7 @@
       color: var(--highlight);
     }
 
-    /* Funds table */
+    /* Funds */
     .funds {
       margin-top: 28px;
       padding: 18px;
@@ -185,146 +179,111 @@
 
     th, td {
       padding: 10px 12px;
-      text-align: left;
       border-bottom: 1px solid rgba(255,255,255,0.08);
     }
 
     th {
       background: linear-gradient(90deg, var(--accent), var(--highlight));
       color: #fff;
-      font-weight: 700;
-      border: none;
     }
 
     td.amount {
       text-align: right;
-      font-weight: 700;
       color: var(--highlight);
+      font-weight: 700;
     }
 
-    /* Footer */
     footer {
       margin-top: 32px;
-      padding: 10px 0;
       text-align: center;
       color: var(--muted);
       font-size: 14px;
+      padding-top: 10px;
       border-top: 1px solid rgba(255,255,255,0.1);
     }
 
     @media (max-width:720px) {
       h1 { font-size: 36px; }
-      .hero { height: 260px; }
       .member { flex-direction: row; }
       .member-photo { width: 90px; height: 90px; }
-      .hero-inner { padding-left: 18px; padding-right: 18px; }
+      .hero { min-height: 200px; }
     }
   </style>
 </head>
 <body>
-  <div class="container">
-    <div class="hero-inner">
-      <h1>PENTANE</h1>
+
+<div class="container">
+
+  <div class="hero-inner">
+    <h1>PENTANE</h1>
+  </div>
+
+  <header class="hero"></header>
+
+  <main>
+
+    <h2 class="section-title">Members</h2>
+    <div class="members">
+
+      <article class="member">
+        <div class="member-photo">
+          <img src="joshwin.jpg">
+        </div>
+        <div class="member-info">
+          <h3>Joshwin P Mathew</h3>
+          <p>Interested in technology, entrepreneurship, music and app development.</p>
+          <a class="insta-link" href="#">Instagram</a>
+        </div>
+      </article>
+
+      <article class="member">
+        <div class="member-photo">
+          <img src="daniel.jpg">
+        </div>
+        <div class="member-info">
+          <h3>Daniel Joseph</h3>
+          <p>Robotics developer, electronics enthusiast and editor.</p>
+          <a class="insta-link" href="#">Instagram</a>
+        </div>
+      </article>
+
     </div>
 
-    <header class="hero" role="banner"></header>
+    <section class="funds">
+      <h2 class="section-title">PENTANE CHITS AND FUNDS</h2>
 
-    <main>
-      <section>
-        <h2 class="section-title">Members</h2>
-        <div class="members">
+      <table>
+        <thead>
+          <tr>
+            <th>Name</th>
+            <th style="text-align:right">Savings (₹)</th>
+          </tr>
+        </thead>
+        <tbody>
+          <tr><td>Joshwin</td><td class="amount">₹1320</td></tr>
+          <tr><td>Azeem</td><td class="amount">₹940</td></tr>
+          <tr><td>Krishnadev</td><td class="amount">₹1250</td></tr>
+          <tr><td>Daniel</td><td class="amount">₹1470</td></tr>
+          <tr><td>Musthaq</td><td class="amount">₹1380</td></tr>
+          <tr><td>Abhirami</td><td class="amount">₹1170</td></tr>
+          <tr><td>Lakshitha</td><td class="amount">₹910</td></tr>
+          <tr><td>Dhwani</td><td class="amount">₹870</td></tr>
+        </tbody>
+        <tfoot>
+          <tr>
+            <th>Total</th>
+            <th style="text-align:right">₹9310</th>
+          </tr>
+        </tfoot>
+      </table>
+    </section>
 
-          <article class="member">
-            <div class="member-photo">
-              <img src="joshwin.jpg" alt="Joshwin P Mathew photo" onerror="this.style.display='none'">
-            </div>
-            <div class="member-info">
-              <h3>Joshwin P Mathew</h3>
-              <p>Joshwin, the topper of SRV, is developing an innovative educational app. He is interested in technology, entrepreneurship, music, playing the keyboard and guitar.</p>
-              <a class="insta-link" href="https://www.instagram.com/joshwinpetermathew/?__pwa=1" target="_blank">Instagram</a>
-            </div>
-          </article>
+  </main>
 
-          <article class="member">
-            <div class="member-photo">
-              <img src="daniel.jpg" alt="Daniel Joseph photo" onerror="this.style.display='none'">
-            </div>
-            <div class="member-info">
-              <h3>Daniel Joseph</h3>
-              <p>Daniel Joseph is skilled in robotics, electronics, and editing. He’s currently developing a robotic internet emitter named “AZTRON.” He enjoys cooking, music, and Arduino coding, and is interested in teaching.</p>
-              <a class="insta-link" href="https://www.instagram.com/dan_._iel___" target="_blank">Instagram</a>
-            </div>
-          </article>
+  <footer>
+    Developer: Joshwin P Mathew
+  </footer>
 
-          <article class="member">
-            <div class="member-photo">
-              <img src="krishnadev.jpg" alt="B. Krishnadev photo" onerror="this.style.display='none'">
-            </div>
-            <div class="member-info">
-              <h3>B. Krishnadev</h3>
-              <p>B. Krishnadev is skilled in AI prompting and aims to integrate artificial intelligence with engineering. With strong knowledge of watches and cars, he’s also passionate about fitness and workouts.</p>
-              <a class="insta-link" href="https://www.instagram.com/b_krishna_dev" target="_blank">Instagram</a>
-            </div>
-          </article>
-
-          <article class="member">
-            <div class="member-photo">
-              <img src="azeem.jpg" alt="Azeem Khan photo" onerror="this.style.display='none'">
-            </div>
-            <div class="member-info">
-              <h3>Azeem Khan</h3>
-              <p>Azeem Khan is deeply interested in electronics and is the second topper of SRV. His hobbies include coding and exploring new technologies.</p>
-              <a class="insta-link" href="https://www.instagram.com/aze._.m" target="_blank">Instagram</a>
-            </div>
-          </article>
-
-          <article class="member">
-            <div class="member-photo">
-              <img src="musthaq.jpg" alt="Mohammed Musthaq photo" onerror="this.style.display='none'">
-            </div>
-            <div class="member-info">
-              <h3>Mohammed Musthaq</h3>
-              <p>Mustaq T. S is inspired by the I.P.S. His hobbies include workouts and self-discipline training.</p>
-              <a class="insta-link" href="https://www.instagram.com/mustaq_t_s" target="_blank">Instagram</a>
-            </div>
-          </article>
-
-        </div>
-      </section>
-
-      <section class="funds" aria-labelledby="funds-title">
-        <h2 id="funds-title" class="section-title">PENTANE CHITS AND FUNDS</h2>
-
-        <table>
-          <thead>
-            <tr>
-              <th>Name</th>
-              <th style="text-align:right">Savings (₹)</th>
-            </tr>
-          </thead>
-          <tbody>
-            <tr><td>Joshwin</td><td class="amount">₹1320</td></tr>
-            <tr><td>Azeem</td><td class="amount">₹940</td></tr>
-            <tr><td>Krishnadev</td><td class="amount">₹1250</td></tr>
-            <tr><td>Daniel</td><td class="amount">₹1470</td></tr>
-            <tr><td>Musthaq</td><td class="amount">₹1380</td></tr>
-            <tr><td>Abhirami</td><td class="amount">₹1170</td></tr>
-            <tr><td>Lakshitha</td><td class="amount">₹910</td></tr>
-            <tr><td>Dhwani</td><td class="amount">₹870</td></tr>
-          </tbody>
-          <tfoot>
-            <tr>
-              <th>Total</th>
-              <th style="text-align:right">₹9310</th>
-            </tr>
-          </tfoot>
-        </table>
-      </section>
-    </main>
-
-    <footer>
-      Developer: Joshwin P Mathew
-    </footer>
-  </div>
+</div>
 </body>
-                </html>
+</html>
