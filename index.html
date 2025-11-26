@@ -3,100 +3,112 @@
 <head>
   <meta charset="utf-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1" />
-
+  <title>PENTANE — Group Photo Fix</title>
   <style>
     :root {
-      --accent: #8f00ff;
-      --highlight: #00ffd5;
-      --dark: #0b0b0b;
-      --muted: #9a9a9a;
-      --card: #1a1a1a;
+      --accent: #8f00ff;     /* royal violet – premium and futuristic */
+      --highlight: #00ffd5;  /* cyan accent for glow or hover effects */
+      --dark: #0b0b0b;       /* deep black background */
+      --muted: #9a9a9a;      /* muted light grey for text */
+      --card: #1a1a1a;       /* dark card surface */
       --max-width: 1100px;
-      font-family: system-ui, -apple-system, "Segoe UI", Roboto, Arial;
+      font-family: system-ui, -apple-system, 'Segoe UI', Roboto, 'Helvetica Neue', Arial;
     }
 
-    * { box-sizing: border-box; }
+    * { box-sizing: border-box; margin: 0; padding: 0; }
 
     body {
-      margin: 0;
       background: var(--dark);
       color: #eaeaea;
       line-height: 1.6;
+      -webkit-font-smoothing: antialiased;
+      -moz-osx-font-smoothing: grayscale;
     }
 
     .container {
       max-width: var(--max-width);
-      margin: 0 auto;
+      margin: 24px auto;
       padding: 24px;
     }
 
-    /* Hero Section */
+    /* ---------- HERO (with real gradient border + contained image) ---------- */
+    /* Outer element creates the gradient border by using a small padding */
     .hero {
-      width: 100%;
-      aspect-ratio: 1226 / 635;
-      min-height: 260px;
-      border-radius: 18px;
-      overflow: hidden;
-      position: relative;
-      margin-bottom: 26px;
-      border: 3px solid transparent;
-      background-clip: padding-box;
-      box-shadow: 0 0 25px rgba(0,0,0,0.6);
-    }
-
-    /* Gradient border glow */
-    .hero::after {
-      content: "";
-      position: absolute;
-      inset: 0;
-      border-radius: 18px;
-      padding: 3px;
+      padding: 4px; /* thickness of the gradient border */
+      border-radius: 20px;
       background: linear-gradient(135deg, var(--accent), var(--highlight));
-      -webkit-mask:
-        linear-gradient(#fff 0 0) content-box,
-        linear-gradient(#fff 0 0);
-      -webkit-mask-composite: xor;
-              mask-composite: exclude;
-      pointer-events: none;
+      box-shadow: 0 10px 30px rgba(0,0,0,0.6);
+      margin-bottom: 26px;
     }
 
-    /* Group Photo */
-    .hero::before {
-      content: "";
+    /* Inner panel holds the image and content; matches the exact image aspect ratio */
+    .hero-panel {
+      position: relative;
+      overflow: hidden;
+      border-radius: 16px;
+      background: linear-gradient(180deg, rgba(0,0,0,0.35), rgba(0,0,0,0.25));
+      /* Force the panel to match the incoming photo's aspect ratio (1226x635) */
+      aspect-ratio: 1226 / 635;
+      min-height: 200px; /* fallback for tiny screens */
+    }
+
+    /* The background image is placed in a dedicated absolutely-positioned element.
+       Using `background-size: contain` ensures the whole image is visible (no cropping).
+       `background-position: center` keeps it centered. */
+    .hero-image {
       position: absolute;
       inset: 0;
-      background-image: url("group-photo.jpg");
-      background-size: contain;
+      background-image: url('group-photo.jpg');
       background-repeat: no-repeat;
       background-position: center;
-      filter: brightness(0.9) contrast(1.1) saturate(1.1);
-      background-color: black;
+      background-size: contain; /* <-- makes the whole 1226x635 image visible */
       z-index: 0;
+      /* remove any dull appearance - do not reduce brightness here */
+      filter: none;
+      transform: translateZ(0);
     }
 
+    /* Subtle overlay for text readability but very light so the photo isn't dulled */
+    .hero-overlay {
+      position: absolute;
+      inset: 0;
+      z-index: 1;
+      pointer-events: none;
+      /* very light overlay — adjust alpha if you want more contrast */
+      background: linear-gradient(180deg, rgba(11,11,11,0.12), rgba(11,11,11,0.12));
+      mix-blend-mode: normal;
+    }
+
+    /* Hero content sits above image and overlay */
     .hero-inner {
-      padding: 6px 10px;
-      color: var(--highlight);
-      margin-bottom: 8px;
+      position: relative;
+      z-index: 2;
+      padding: 20px 28px;
+      display: flex;
+      align-items: flex-end;
+      height: 100%;
     }
 
-    h1 {
-      font-size: 56px;
-      margin: 6px 0;
+    .hero-inner h1 {
+      margin: 0;
+      font-size: 48px;
+      line-height: 1;
       letter-spacing: 1px;
       background: linear-gradient(90deg, var(--highlight), var(--accent));
       -webkit-background-clip: text;
       -webkit-text-fill-color: transparent;
+      text-shadow: 0 2px 12px rgba(0,0,0,0.6);
     }
 
+    /* ---------- Members / Cards ---------- */
     h2.section-title {
+      margin-top: 18px;
       color: var(--highlight);
-      font-size: 26px;
+      font-size: 22px;
       letter-spacing: 1px;
       text-transform: uppercase;
     }
 
-    /* Members */
     .members {
       margin-top: 18px;
       display: flex;
@@ -111,12 +123,13 @@
       padding: 16px;
       border-radius: 12px;
       align-items: center;
-      box-shadow: 0 0 10px rgba(0,0,0,0.5);
+      box-shadow: 0 8px 18px rgba(0,0,0,0.45);
+      transition: transform 0.18s ease, box-shadow 0.25s ease;
     }
 
     .member:hover {
       transform: translateY(-4px);
-      box-shadow: 0 0 16px var(--accent);
+      box-shadow: 0 14px 28px rgba(0,0,0,0.6);
     }
 
     .member-photo {
@@ -124,10 +137,14 @@
       height: 110px;
       border-radius: 10px;
       background: linear-gradient(135deg, var(--accent), var(--highlight));
-      flex: 0 0 110px;
       display: flex;
       align-items: center;
       justify-content: center;
+      font-weight: 700;
+      color: #111;
+      border: 2px solid rgba(255,255,255,0.06);
+      flex: 0 0 110px;
+      position: relative;
       overflow: hidden;
     }
 
@@ -153,8 +170,8 @@
       margin-top: 6px;
       display: inline-block;
       color: var(--accent);
-      text-decoration: none;
       font-weight: 600;
+      text-decoration: none;
     }
 
     .insta-link:hover {
@@ -162,13 +179,13 @@
       color: var(--highlight);
     }
 
-    /* Funds */
+    /* ---------- Funds table ---------- */
     .funds {
       margin-top: 28px;
       padding: 18px;
       border-radius: 12px;
       background: var(--card);
-      box-shadow: 0 0 16px rgba(0,0,0,0.5);
+      box-shadow: 0 0 16px rgba(0,0,0,0.45);
     }
 
     table {
@@ -179,111 +196,172 @@
 
     th, td {
       padding: 10px 12px;
-      border-bottom: 1px solid rgba(255,255,255,0.08);
+      text-align: left;
+      border-bottom: 1px solid rgba(255,255,255,0.06);
+      font-size: 15px;
     }
 
     th {
       background: linear-gradient(90deg, var(--accent), var(--highlight));
       color: #fff;
+      font-weight: 700;
+      border: none;
+      text-align: left;
     }
 
     td.amount {
       text-align: right;
-      color: var(--highlight);
       font-weight: 700;
+      color: var(--highlight);
     }
 
+    tfoot th {
+      font-size: 16px;
+      text-align: left;
+    }
+
+    /* ---------- Footer ---------- */
     footer {
       margin-top: 32px;
+      padding: 10px 0;
       text-align: center;
       color: var(--muted);
       font-size: 14px;
-      padding-top: 10px;
-      border-top: 1px solid rgba(255,255,255,0.1);
+      border-top: 1px solid rgba(255,255,255,0.04);
     }
 
-    @media (max-width:720px) {
-      h1 { font-size: 36px; }
-      .member { flex-direction: row; }
+    /* ---------- Responsive ---------- */
+    @media (max-width: 900px) {
+      .container { padding: 18px; }
+      .hero-inner h1 { font-size: 36px; }
       .member-photo { width: 90px; height: 90px; }
-      .hero { min-height: 200px; }
+    }
+
+    @media (max-width: 720px) {
+      .hero { padding: 3px; }
+      .hero-inner { padding: 12px; }
+      .hero-inner h1 { font-size: 30px; }
+      .member { gap: 12px; }
+      .member-photo { width: 74px; height: 74px; }
+      .member-info h3 { font-size: 16px; }
     }
   </style>
 </head>
 <body>
+  <div class="container">
 
-<div class="container">
+    <!-- HERO: gradient border (outer `.hero`) contains `.hero-panel` which keeps the image fully visible -->
+    <header class="hero" role="banner" aria-label="Group photo">
+      <div class="hero-panel">
+        <!-- the image element (background) — set your 1226x635 asset at this path -->
+        <div class="hero-image" aria-hidden="true"></div>
 
-  <div class="hero-inner">
-    <h1>PENTANE</h1>
+        <!-- light overlay for legibility without making the photo dull -->
+        <div class="hero-overlay" aria-hidden="true"></div>
+
+        <!-- content placed above the photo -->
+        <div class="hero-inner">
+          <h1>PENTANE</h1>
+        </div>
+      </div>
+    </header>
+
+    <main>
+      <section>
+        <h2 class="section-title">Members</h2>
+        <div class="members">
+
+          <article class="member">
+            <div class="member-photo">
+              <img src="joshwin.jpg" alt="Joshwin P Mathew photo" onerror="this.style.display='none'">
+            </div>
+            <div class="member-info">
+              <h3>Joshwin P Mathew</h3>
+              <p>Joshwin, the topper of SRV, is developing an innovative educational app. He is interested in technology, entrepreneurship, music, playing the keyboard and guitar.</p>
+              <a class="insta-link" href="https://www.instagram.com/joshwinpetermathew/?__pwa=1" target="_blank" rel="noopener">Instagram</a>
+            </div>
+          </article>
+
+          <article class="member">
+            <div class="member-photo">
+              <img src="daniel.jpg" alt="Daniel Joseph photo" onerror="this.style.display='none'">
+            </div>
+            <div class="member-info">
+              <h3>Daniel Joseph</h3>
+              <p>Daniel Joseph is skilled in robotics, electronics, and editing. He’s currently developing a robotic internet emitter named “AZTRON.” He enjoys cooking, music, and Arduino coding, and is interested in teaching.</p>
+              <a class="insta-link" href="https://www.instagram.com/dan_._iel___" target="_blank" rel="noopener">Instagram</a>
+            </div>
+          </article>
+
+          <article class="member">
+            <div class="member-photo">
+              <img src="krishnadev.jpg" alt="B. Krishnadev photo" onerror="this.style.display='none'">
+            </div>
+            <div class="member-info">
+              <h3>B. Krishnadev</h3>
+              <p>B. Krishnadev is skilled in AI prompting and aims to integrate artificial intelligence with engineering. With strong knowledge of watches and cars, he’s also passionate about fitness and workouts.</p>
+              <a class="insta-link" href="https://www.instagram.com/b_krishna_dev" target="_blank" rel="noopener">Instagram</a>
+            </div>
+          </article>
+
+          <article class="member">
+            <div class="member-photo">
+              <img src="azeem.jpg" alt="Azeem Khan photo" onerror="this.style.display='none'">
+            </div>
+            <div class="member-info">
+              <h3>Azeem Khan</h3>
+              <p>Azeem Khan is deeply interested in electronics and is the second topper of SRV. His hobbies include coding and exploring new technologies.</p>
+              <a class="insta-link" href="https://www.instagram.com/aze._.m" target="_blank" rel="noopener">Instagram</a>
+            </div>
+          </article>
+
+          <article class="member">
+            <div class="member-photo">
+              <img src="musthaq.jpg" alt="Mohammed Musthaq photo" onerror="this.style.display='none'">
+            </div>
+            <div class="member-info">
+              <h3>Mohammed Musthaq</h3>
+              <p>Mustaq T. S is inspired by the I.P.S. His hobbies include workouts and self-discipline training.</p>
+              <a class="insta-link" href="https://www.instagram.com/mustaq_t_s" target="_blank" rel="noopener">Instagram</a>
+            </div>
+          </article>
+
+        </div>
+      </section>
+
+      <section class="funds" aria-labelledby="funds-title">
+        <h2 id="funds-title" class="section-title">PENTANE CHITS AND FUNDS</h2>
+
+        <table>
+          <thead>
+            <tr>
+              <th>Name</th>
+              <th style="text-align:right">Savings (₹)</th>
+            </tr>
+          </thead>
+          <tbody>
+            <tr><td>Joshwin</td><td class="amount">₹1320</td></tr>
+            <tr><td>Azeem</td><td class="amount">₹940</td></tr>
+            <tr><td>Krishnadev</td><td class="amount">₹1250</td></tr>
+            <tr><td>Daniel</td><td class="amount">₹1470</td></tr>
+            <tr><td>Musthaq</td><td class="amount">₹1380</td></tr>
+            <tr><td>Abhirami</td><td class="amount">₹1170</td></tr>
+            <tr><td>Lakshitha</td><td class="amount">₹910</td></tr>
+            <tr><td>Dhwani</td><td class="amount">₹870</td></tr>
+          </tbody>
+          <tfoot>
+            <tr>
+              <th>Total</th>
+              <th style="text-align:right">₹9310</th>
+            </tr>
+          </tfoot>
+        </table>
+      </section>
+    </main>
+
+    <footer>
+      Developer: Joshwin P Mathew
+    </footer>
   </div>
-
-  <header class="hero"></header>
-
-  <main>
-
-    <h2 class="section-title">Members</h2>
-    <div class="members">
-
-      <article class="member">
-        <div class="member-photo">
-          <img src="joshwin.jpg">
-        </div>
-        <div class="member-info">
-          <h3>Joshwin P Mathew</h3>
-          <p>Interested in technology, entrepreneurship, music and app development.</p>
-          <a class="insta-link" href="#">Instagram</a>
-        </div>
-      </article>
-
-      <article class="member">
-        <div class="member-photo">
-          <img src="daniel.jpg">
-        </div>
-        <div class="member-info">
-          <h3>Daniel Joseph</h3>
-          <p>Robotics developer, electronics enthusiast and editor.</p>
-          <a class="insta-link" href="#">Instagram</a>
-        </div>
-      </article>
-
-    </div>
-
-    <section class="funds">
-      <h2 class="section-title">PENTANE CHITS AND FUNDS</h2>
-
-      <table>
-        <thead>
-          <tr>
-            <th>Name</th>
-            <th style="text-align:right">Savings (₹)</th>
-          </tr>
-        </thead>
-        <tbody>
-          <tr><td>Joshwin</td><td class="amount">₹1320</td></tr>
-          <tr><td>Azeem</td><td class="amount">₹940</td></tr>
-          <tr><td>Krishnadev</td><td class="amount">₹1250</td></tr>
-          <tr><td>Daniel</td><td class="amount">₹1470</td></tr>
-          <tr><td>Musthaq</td><td class="amount">₹1380</td></tr>
-          <tr><td>Abhirami</td><td class="amount">₹1170</td></tr>
-          <tr><td>Lakshitha</td><td class="amount">₹910</td></tr>
-          <tr><td>Dhwani</td><td class="amount">₹870</td></tr>
-        </tbody>
-        <tfoot>
-          <tr>
-            <th>Total</th>
-            <th style="text-align:right">₹9310</th>
-          </tr>
-        </tfoot>
-      </table>
-    </section>
-
-  </main>
-
-  <footer>
-    Developer: Joshwin P Mathew
-  </footer>
-
-</div>
 </body>
 </html>
